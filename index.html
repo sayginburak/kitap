@@ -112,10 +112,6 @@
       gap: 8px;
     }
 
-    .card h2 .icon {
-      font-size: 24px;
-    }
-
     .card > p {
       color: var(--text-light);
       font-size: 15px;
@@ -347,27 +343,6 @@
       line-height: 1.5;
     }
 
-    /* Info Card */
-    .info-card {
-      background: linear-gradient(135deg, #f7f0e6 0%, #f0e8d8 100%);
-      border: 1px solid #e0d5c4;
-    }
-
-    .info-card ol {
-      padding-left: 20px;
-    }
-
-    .info-card ol li {
-      font-size: 14px;
-      color: var(--text-light);
-      margin-bottom: 8px;
-      line-height: 1.5;
-    }
-
-    .info-card ol li:last-child {
-      margin-bottom: 0;
-    }
-
     /* Divider */
     .divider {
       height: 1px;
@@ -464,6 +439,11 @@
       color: var(--accent);
       text-decoration: none;
       transition: color 0.2s;
+      background: none;
+      border: none;
+      font-family: inherit;
+      cursor: pointer;
+      padding: 0;
     }
 
     .header-link:hover {
@@ -673,7 +653,7 @@
       <div class="logo" aria-hidden="true">📚</div>
       <h1>Büyük Kitap Değişimi</h1>
       <p class="subtitle">En sevdiğiniz kitabı paylaşın, karşılığında 36'ya kadar kitap alabilirsiniz!</p>
-      <a href="#nasil-calisir" class="header-link">Nasıl çalışır?</a>
+      <button class="header-link" id="open-how-btn" type="button">Nasıl çalışır?</button>
     </header>
 
     <!-- Warning: who shared this link -->
@@ -775,17 +755,6 @@
       </div>
     </section>
 
-    <section id="nasil-calisir" class="card info-card">
-      <h2><span class="icon">💡</span> Nasıl Çalışır?</h2>
-      <ol>
-        <li>Hikâyenizde kitap değişimi metnini paylaşın.</li>
-        <li>"Varım" diyen kişilere oluşturduğunuz linki gönderin.</li>
-        <li>Onlar linkteki adrese en sevdikleri kitabı gönderir.</li>
-        <li>Kendi adreslerini girip yeni bir link oluştururlar.</li>
-        <li>Zincir böyle büyür ve herkese kitap ulaşır!</li>
-      </ol>
-    </section>
-
     <!-- Open source notice -->
     <div class="open-source-notice">
       Bu sayfa açık kaynaklıdır ve kodları <a href="https://github.com/sayginburak/kitap" target="_blank" rel="noopener">GitHub</a> üzerinden incelenebilir. Adresinizi ve diğer bilgilerinizi hiçbir yere göndermez; tüm veriler yalnızca tarayıcınızda işlenir.<br><br>
@@ -796,6 +765,60 @@
       Kitaplar insanları, insanlar kitapları birbirine bağlar.<br>
       <button class="manual-link" id="open-legal-btn" type="button" style="font-size:12px; color:var(--text-muted); margin-top:6px;">Kullanım Koşulları ve Gizlilik</button>
     </footer>
+  </div>
+
+  <!-- How it works modal -->
+  <div id="how-modal" class="modal-overlay">
+    <div class="modal" style="position:relative;">
+      <button class="modal-close" id="close-how-btn" type="button" aria-label="Kapat">&times;</button>
+      <h2>Nasıl Çalışır?</h2>
+
+      <div class="step-item">
+        <span class="step-num">1</span>
+        <div class="step-text">
+          Size gelen linkteki adrese en sevdiğiniz kitabı (sadece bir tane) satın alıp gönderin.
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-num">2</span>
+        <div class="step-text">
+          Kendi adresinizi girin ve kişisel linkinizi oluşturun.
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-num">3</span>
+        <div class="step-text">
+          Hikâyenizde kitap değişimi metnini paylaşın.
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-num">4</span>
+        <div class="step-text">
+          "Varım" diyen kişilere oluşturduğunuz linki gönderin.
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-num">5</span>
+        <div class="step-text">
+          Onlar da linkteki adrese en sevdikleri kitabı gönderir, kendi adreslerini girip yeni link oluşturur.
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-num">6</span>
+        <div class="step-text">
+          Zincir böyle büyür ve herkese kitap ulaşır!
+        </div>
+      </div>
+
+      <div style="margin-top:20px; text-align:center;">
+        <button class="btn btn-secondary btn-sm" id="close-how-btn-2" type="button">Anladım</button>
+      </div>
+    </div>
   </div>
 
   <!-- Manual instructions modal -->
@@ -1145,6 +1168,7 @@ Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.`;
       return { open, close };
     }
 
+    const howModal = setupModal('#how-modal', '#open-how-btn', ['#close-how-btn', '#close-how-btn-2']);
     const manualModal = setupModal('#manual-modal', '#open-manual-btn', ['#close-modal-btn', '#close-modal-btn-2']);
     const legalModal = setupModal('#legal-modal', '#open-legal-btn', ['#close-legal-btn', '#close-legal-btn-2']);
 
@@ -1154,7 +1178,7 @@ Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.`;
 
     // Escape key closes all modals
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { manualModal.close(); legalModal.close(); }
+      if (e.key === 'Escape') { howModal.close(); manualModal.close(); legalModal.close(); }
     });
   </script>
 </body>
