@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Büyük Kitap Değişimi</title>
+  <meta name="description" content="Büyük kitap değişimi zincirine katılın! En sevdiğiniz kitabı paylaşın, 36 farklı kitap kazanın.">
+  <meta property="og:title" content="Büyük Kitap Değişimi">
+  <meta property="og:description" content="En sevdiğiniz kitabı paylaşın, dünyanın farklı yerlerinden 36 kitap kazanın!">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf6f0;
+      --bg-gradient: linear-gradient(160deg, #fdf8f2 0%, #f0e8da 100%);
+      --card-bg: #ffffff;
+      --primary: #6B4226;
+      --primary-light: #8B5E3C;
+      --primary-dark: #4A2E1A;
+      --accent: #E07A5F;
+      --accent-hover: #c9684f;
+      --green: #81B29A;
+      --green-dark: #6a9b83;
+      --text: #3D405B;
+      --text-light: #6c6f8a;
+      --text-muted: #9a9cb5;
+      --border: #e8e0d4;
+      --shadow: 0 2px 12px rgba(107, 66, 38, 0.08);
+      --shadow-lg: 0 8px 32px rgba(107, 66, 38, 0.12);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 32px 0 8px;
+    }
+
+    .logo {
+      font-size: 56px;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    header .subtitle {
+      font-size: 15px;
+      color: var(--text-light);
+      max-width: 360px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      margin-top: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      animation: fadeInUp 0.4s ease-out;
+    }
+
+    .card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h2 .icon {
+      font-size: 24px;
+    }
+
+    .card > p {
+      color: var(--text-light);
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    /* Step Badge */
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Address Card */
+    .address-display {
+      background: linear-gradient(135deg, #fdf6ec 0%, #f7eed9 100%);
+      border: 2px dashed var(--primary-light);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .address-display .addr-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .address-display .addr-detail {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .address-display .addr-phone {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary-light);
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--bg);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(107, 66, 38, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-group .hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 4px 12px rgba(224, 122, 95, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 6px 16px rgba(224, 122, 95, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg);
+      border-color: var(--primary-light);
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: white;
+      box-shadow: 0 4px 12px rgba(129, 178, 154, 0.3);
+    }
+
+    .btn-green:hover {
+      background: var(--green-dark);
+      box-shadow: 0 6px 16px rgba(129, 178, 154, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn + .btn {
+      margin-top: 10px;
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+      color: white;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn-whatsapp:hover {
+      background: #1fb855;
+      box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-sm {
+      padding: 10px 16px;
+      font-size: 13px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-row .btn {
+      flex: 1;
+    }
+
+    .btn-row .btn + .btn {
+      margin-top: 0;
+    }
+
+    /* Share Section */
+    .share-block {
+      margin-bottom: 24px;
+    }
+
+    .share-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .share-block h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .text-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-line;
+      margin-bottom: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .url-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--text-light);
+      word-break: break-all;
+      margin-bottom: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      line-height: 1.5;
+    }
+
+    /* Info Card */
+    .info-card {
+      background: linear-gradient(135deg, #f7f0e6 0%, #f0e8d8 100%);
+      border: 1px solid #e0d5c4;
+    }
+
+    .info-card ol {
+      padding-left: 20px;
+    }
+
+    .info-card ol li {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .info-card ol li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    /* Hidden */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--primary-dark);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.4s ease-out;
+    }
+
+    /* Success state */
+    .success-banner {
+      background: linear-gradient(135deg, #81B29A 0%, #6a9b83 100%);
+      color: white;
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    /* Responsive */
+    @media (max-width: 400px) {
+      .container {
+        padding: 16px 12px 32px;
+      }
+
+      .card {
+        padding: 22px 18px;
+      }
+
+      header h1 {
+        font-size: 24px;
+      }
+
+      .logo {
+        font-size: 48px;
+      }
+    }
+
+    /* Focus ring for accessibility */
+    :focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Scroll margin for anchored sections */
+    .card {
+      scroll-margin-top: 16px;
+    }
+
+    /* Instruction banner for fresh visitors */
+    .welcome-banner {
+      text-align: center;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, rgba(224, 122, 95, 0.1), rgba(129, 178, 154, 0.1));
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo" aria-hidden="true">📚</div>
+      <h1>Büyük Kitap Değişimi</h1>
+      <p class="subtitle">En sevdiğiniz kitabı paylaşın, dünyanın farklı yerlerinden 36 kitap kazanın!</p>
+    </header>
+
+    <!-- ============================================ -->
+    <!-- STATE: Has link data - show address to send to -->
+    <!-- ============================================ -->
+    <section id="send-section" class="card hidden">
+      <h2><span class="step-badge">1</span> Kitap Gönderin</h2>
+      <p>En sevdiğiniz kitabı (sadece bir tane) satın alıp aşağıdaki adrese gönderin:</p>
+      <div class="address-display">
+        <div class="addr-name" id="send-name"></div>
+        <div class="addr-detail" id="send-address"></div>
+        <div class="addr-phone" id="send-phone">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span id="send-phone-text"></span>
+        </div>
+      </div>
+      <button class="btn btn-secondary" id="copy-address-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Adresi Kopyala
+      </button>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- FORM: Enter your address -->
+    <!-- ============================================ -->
+    <section id="form-section" class="card">
+      <h2>
+        <span class="step-badge" id="form-step-badge">1</span>
+        <span id="form-title">Zinciri Başlatın</span>
+      </h2>
+      <p id="form-description">Adresinizi girin ve kitap değişim zincirinizi başlatın.</p>
+      <form id="address-form" autocomplete="on">
+        <div class="form-group">
+          <label for="name">Ad Soyad</label>
+          <input type="text" id="name" name="name" required placeholder="Adınız ve soyadınız" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="address">Adres</label>
+          <textarea id="address" name="address" required placeholder="Mahalle, sokak, bina no, daire, ilçe/il" autocomplete="street-address" rows="3"></textarea>
+          <div class="hint">Kitabın ulaşacağı tam adresinizi yazın.</div>
+        </div>
+        <div class="form-group">
+          <label for="phone">Telefon</label>
+          <input type="tel" id="phone" name="phone" required placeholder="05XX XXX XX XX" autocomplete="tel">
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Linkimi Oluştur
+        </button>
+      </form>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SHARE: Generated link and story text -->
+    <!-- ============================================ -->
+    <section id="share-section" class="card hidden">
+      <div class="success-banner fade-in">
+        Linkiniz hazır! Aşağıdaki adımları takip edin.
+      </div>
+
+      <div class="share-block">
+        <h3>
+          <span class="step-badge" id="share-step-1">2</span>
+          Hikâyenizde bu metni paylaşın
+        </h3>
+        <div class="text-block" id="story-text"></div>
+        <button class="btn btn-primary" id="copy-story-btn" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Metni Kopyala
+        </button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="share-block">
+        <h3>
+          <span class="step-badge" id="share-step-2">3</span>
+          "Varım" diyenlere bu linki gönderin
+        </h3>
+        <p style="font-size:14px; color:var(--text-light); margin-bottom:12px;">
+          Hikâyenize yanıt veren herkese aşağıdaki linki DM ile gönderin. Onlar linke tıklayınca kitabı kime göndereceklerini görecekler.
+        </p>
+        <div class="url-block" id="share-url"></div>
+        <div class="btn-row">
+          <button class="btn btn-green" id="copy-url-btn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopyala
+          </button>
+          <button class="btn btn-whatsapp" id="whatsapp-btn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div style="text-align:center;">
+        <button class="btn btn-secondary btn-sm" id="reset-btn" type="button">Bilgilerimi Değiştir</button>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- INFO: How it works -->
+    <!-- ============================================ -->
+    <section class="card info-card">
+      <h2><span class="icon">💡</span> Nasıl Çalışır?</h2>
+      <ol>
+        <li>Hikâyenizde kitap değişimi metnini paylaşın.</li>
+        <li>"Varım" diyen kişilere oluşturduğunuz linki gönderin.</li>
+        <li>Onlar linkteki adrese en sevdikleri kitabı gönderir.</li>
+        <li>Kendi adreslerini girip yeni bir link oluştururlar.</li>
+        <li>Zincir böyle büyür ve herkes kitap alır!</li>
+      </ol>
+    </section>
+
+    <footer style="text-align:center; padding: 24px 0 8px; color: var(--text-muted); font-size: 12px;">
+      Kitaplar insanları, insanlar kitapları birbirine bağlar.
+    </footer>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <script>
+    // =============================================
+    // Encoding / Decoding helpers
+    // =============================================
+    function encodeData(data) {
+      const json = JSON.stringify(data);
+      const bytes = new TextEncoder().encode(json);
+      let binary = '';
+      bytes.forEach(b => binary += String.fromCharCode(b));
+      return btoa(binary)
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+    }
+
+    function decodeData(str) {
+      try {
+        let b64 = str.replace(/-/g, '+').replace(/_/g, '/');
+        while (b64.length % 4) b64 += '=';
+        const binary = atob(b64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return JSON.parse(new TextDecoder().decode(bytes));
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // =============================================
+    // Clipboard helper
+    // =============================================
+    async function copyToClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        // Fallback for older browsers / non-HTTPS
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          return true;
+        } catch {
+          document.body.removeChild(textarea);
+          return false;
+        }
+      }
+    }
+
+    // =============================================
+    // Toast notification
+    // =============================================
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    // =============================================
+    // Story text (constant)
+    // =============================================
+    const STORY_TEXT = `📚 Büyük Kitap Değişimi 📚
+
+Büyük kitap değişimi oyununa katılmak isteyen insanlar arıyorum!
+
+Yapmanız gereken tek şey en sevdiğiniz kitabı (sadece bir tane) satın alıp bir yabancıya göndermek. (Size onun bilgilerini özelden mesajla ileteceğim.)
+
+Karşılığında size 36 kitap gelebilir! Dünyanın farklı yerlerinden tanımadığınız 36 kitapkurdunun en sevdiği kitaplar sizin olabilir.
+
+Katılmak isterseniz bu mesaja "VARIM!" yazarak cevap verin.`;
+
+    // =============================================
+    // Main app logic
+    // =============================================
+    const $ = (sel) => document.querySelector(sel);
+
+    // Parse URL
+    const params = new URLSearchParams(window.location.search);
+    const dataParam = params.get('d');
+    const linkData = dataParam ? decodeData(dataParam) : null;
+
+    // Has valid link data?
+    const hasData = linkData && linkData.s && linkData.s.n && linkData.s.a;
+
+    // DOM refs
+    const sendSection = $('#send-section');
+    const formSection = $('#form-section');
+    const shareSection = $('#share-section');
+    const formStepBadge = $('#form-step-badge');
+    const formTitle = $('#form-title');
+    const formDescription = $('#form-description');
+    const addressForm = $('#address-form');
+
+    if (hasData) {
+      // ---- Mode: received a link, show send-to address ----
+      sendSection.classList.remove('hidden');
+
+      // Populate address
+      $('#send-name').textContent = linkData.s.n;
+      $('#send-address').textContent = linkData.s.a;
+      $('#send-phone-text').textContent = linkData.s.p || '';
+      if (!linkData.s.p) {
+        $('#send-phone').style.display = 'none';
+      }
+
+      // Update form section to be step 2
+      formStepBadge.textContent = '2';
+      formTitle.textContent = 'Zincire Katılın';
+      formDescription.textContent = 'Kendi adresinizi girin ki size de kitap gönderilsin. Adresiniz bir sonraki katılımcıya iletilecek.';
+
+      // Update share step numbers
+      $('#share-step-1').textContent = '3';
+      $('#share-step-2').textContent = '4';
+
+      // Copy address button
+      $('#copy-address-btn').addEventListener('click', async () => {
+        const addrText = [
+          linkData.s.n,
+          linkData.s.a,
+          linkData.s.p || ''
+        ].filter(Boolean).join('\n');
+        const ok = await copyToClipboard(addrText);
+        showToast(ok ? 'Adres kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
+      });
+    } else {
+      // ---- Mode: starting a new chain ----
+      formStepBadge.textContent = '1';
+      formTitle.textContent = 'Zinciri Başlatın';
+      formDescription.textContent = 'Adresinizi girin ve kitap değişim zincirinizi başlatın. Oluşturulan linki paylaştığınızda insanlar size kitap gönderebilecek.';
+
+      $('#share-step-1').textContent = '2';
+      $('#share-step-2').textContent = '3';
+    }
+
+    // =============================================
+    // State
+    // =============================================
+    let generatedUrl = '';
+
+    // =============================================
+    // Form submission
+    // =============================================
+    addressForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const userName = $('#name').value.trim();
+      const userAddress = $('#address').value.trim();
+      const userPhone = $('#phone').value.trim();
+
+      if (!userName || !userAddress || !userPhone) return;
+
+      // Build new link data
+      let newLinkData;
+      if (hasData) {
+        // Chain mode: sendTo = old from, from = user
+        newLinkData = {
+          s: linkData.f ? { ...linkData.f } : { ...linkData.s },
+          f: { n: userName, a: userAddress, p: userPhone }
+        };
+      } else {
+        // New chain: both sendTo and from are the user
+        newLinkData = {
+          s: { n: userName, a: userAddress, p: userPhone },
+          f: { n: userName, a: userAddress, p: userPhone }
+        };
+      }
+
+      const encoded = encodeData(newLinkData);
+      const baseUrl = window.location.origin + window.location.pathname;
+      generatedUrl = baseUrl + '?d=' + encoded;
+
+      // Populate share section
+      $('#story-text').textContent = STORY_TEXT;
+      $('#share-url').textContent = generatedUrl;
+
+      // Show share section
+      shareSection.classList.remove('hidden');
+      shareSection.classList.add('fade-in');
+
+      // Disable form
+      setFormDisabled(true);
+
+      // Scroll to share section
+      setTimeout(() => {
+        shareSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    });
+
+    // =============================================
+    // Form disable/enable
+    // =============================================
+    function setFormDisabled(disabled) {
+      $('#name').disabled = disabled;
+      $('#address').disabled = disabled;
+      $('#phone').disabled = disabled;
+      $('#submit-btn').disabled = disabled;
+      $('#submit-btn').style.opacity = disabled ? '0.5' : '1';
+      if (disabled) {
+        $('#submit-btn').innerHTML = 'Link Oluşturuldu &#10003;';
+      } else {
+        $('#submit-btn').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Linkimi Oluştur';
+      }
+    }
+
+    // =============================================
+    // Copy buttons (always attached, use current state)
+    // =============================================
+    $('#copy-story-btn').addEventListener('click', async () => {
+      const ok = await copyToClipboard(STORY_TEXT);
+      showToast(ok ? 'Metin kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
+    });
+
+    $('#copy-url-btn').addEventListener('click', async () => {
+      const ok = await copyToClipboard(generatedUrl);
+      showToast(ok ? 'Link kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
+    });
+
+    // =============================================
+    // WhatsApp share
+    // =============================================
+    $('#whatsapp-btn').addEventListener('click', () => {
+      if (!generatedUrl) return;
+      const waUrl = 'https://wa.me/?text=' + encodeURIComponent(generatedUrl);
+      window.open(waUrl, '_blank');
+    });
+
+    // =============================================
+    // Reset / Edit
+    // =============================================
+    $('#reset-btn').addEventListener('click', () => {
+      shareSection.classList.add('hidden');
+      setFormDisabled(false);
+      generatedUrl = '';
+      formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</body>
+</html>
