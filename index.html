@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Büyük Kitap Değişimi</title>
-  <meta name="description" content="Büyük kitap değişimi zincirine katılın! En sevdiğiniz kitabı paylaşın, 36 farklı kitap kazanın.">
+  <meta name="description" content="Büyük kitap değişimi zincirine katılın! En sevdiğiniz kitabı paylaşın, karşılığında 36'ya kadar kitap alabilirsiniz.">
   <meta property="og:title" content="Büyük Kitap Değişimi">
-  <meta property="og:description" content="En sevdiğiniz kitabı paylaşın, dünyanın farklı yerlerinden 36 kitap kazanın!">
+  <meta property="og:description" content="En sevdiğiniz kitabı paylaşın, karşılığında 36'ya kadar kitap alabilirsiniz!">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -91,6 +91,7 @@
       box-shadow: var(--shadow);
       border: 1px solid var(--border);
       animation: fadeInUp 0.4s ease-out;
+      scroll-margin-top: 16px;
     }
 
     .card h2 {
@@ -301,10 +302,6 @@
       margin-bottom: 24px;
     }
 
-    .share-block:last-child {
-      margin-bottom: 0;
-    }
-
     .share-block h3 {
       font-size: 15px;
       font-weight: 700;
@@ -448,11 +445,6 @@
     :focus-visible {
       outline: 3px solid var(--accent);
       outline-offset: 2px;
-    }
-
-    /* Scroll margin for anchored sections */
-    .card {
-      scroll-margin-top: 16px;
     }
 
     /* Header link */
@@ -685,9 +677,6 @@
       <p>Bu link geçersiz veya bozulmuş görünüyor. Oyuna katılabilmek için geçerli bir linke ihtiyacınız var. Lütfen linki size gönderen kişiden tekrar isteyin.</p>
     </section>
 
-    <!-- ============================================ -->
-    <!-- STATE: Has link data - show address to send to -->
-    <!-- ============================================ -->
     <section id="send-section" class="card hidden">
       <h2><span class="step-badge">1</span> Kitap Gönderin</h2>
       <p>En sevdiğiniz kitabı (sadece bir tane) satın alıp aşağıdaki adrese gönderin:</p>
@@ -705,15 +694,12 @@
       </button>
     </section>
 
-    <!-- ============================================ -->
-    <!-- FORM: Enter your address -->
-    <!-- ============================================ -->
     <section id="form-section" class="card">
       <h2>
-        <span class="step-badge" id="form-step-badge">1</span>
-        <span id="form-title">Zinciri Başlatın</span>
+        <span class="step-badge" id="form-step-badge">2</span>
+        <span id="form-title">Zincire Katılın</span>
       </h2>
-      <p id="form-description">Adresinizi girin ve kitap değişim zincirinizi başlatın.</p>
+      <p id="form-description">Kendi adresinizi girin ki size de kitap gönderilsin.</p>
       <form id="address-form" autocomplete="on">
         <div class="form-group">
           <label for="name">Ad Soyad</label>
@@ -735,9 +721,6 @@
       </form>
     </section>
 
-    <!-- ============================================ -->
-    <!-- SHARE: Generated link and story text -->
-    <!-- ============================================ -->
     <section id="share-section" class="card hidden">
       <div class="success-banner fade-in">
         Linkiniz hazır! Aşağıdaki adımları takip edin.
@@ -784,9 +767,6 @@
       </div>
     </section>
 
-    <!-- ============================================ -->
-    <!-- INFO: How it works -->
-    <!-- ============================================ -->
     <section id="nasil-calisir" class="card info-card">
       <h2><span class="icon">💡</span> Nasıl Çalışır?</h2>
       <ol>
@@ -846,7 +826,6 @@ Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.</div>
         <div class="step-text">
           Hikâyenize "varım" diyen kişilere aşağıdaki mesajı gönderin. Göndermeden önce düzenleyin:
           <ul style="margin-top:8px; margin-bottom:8px; padding-left:18px; font-size:13px; color:var(--text-light);" id="manual-instructions-list">
-            <li><strong>İlk adres</strong> kısmına "varım" dediğiniz (size linki gönderen) kişinin adresini yazın.</li>
             <li><strong>İkinci adres</strong> kısmına kendi adresinizi yazın.</li>
           </ul>
           <div class="message-block" id="manual-template-text">Harika ☺️
@@ -988,43 +967,36 @@ Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.</div>
     }
 
     // =============================================
-    // Clipboard helper
+    // Clipboard + Toast helpers
     // =============================================
     async function copyToClipboard(text) {
       try {
         await navigator.clipboard.writeText(text);
         return true;
       } catch {
-        // Fallback for older browsers / non-HTTPS
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-          document.execCommand('copy');
-          document.body.removeChild(textarea);
-          return true;
-        } catch {
-          document.body.removeChild(textarea);
-          return false;
-        }
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch { return false; }
+        finally { document.body.removeChild(ta); }
+        return true;
       }
     }
 
-    // =============================================
-    // Toast notification
-    // =============================================
     let toastTimeout;
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
       clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2200);
+      toastTimeout = setTimeout(() => el.classList.remove('show'), 2200);
+    }
+
+    async function copyAndToast(text, successMsg) {
+      const ok = await copyToClipboard(text);
+      showToast(ok ? successMsg : 'Kopyalanamadı, lütfen elle kopyalayın.');
     }
 
     // =============================================
@@ -1040,172 +1012,110 @@ Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.`;
     // =============================================
     const $ = (sel) => document.querySelector(sel);
 
-    // Parse URL
-    const params = new URLSearchParams(window.location.search);
-    const dataParam = params.get('d');
-    const linkData = dataParam ? decodeData(dataParam) : null;
-
-    // Determine state
+    const linkData = (() => {
+      const d = new URLSearchParams(window.location.search).get('d');
+      return d ? decodeData(d) : null;
+    })();
     const hasData = linkData && linkData.s && linkData.s.n && linkData.s.a;
-    const isInvalidOrMissing = !hasData; // no data, empty, or corrupt
 
-    // DOM refs
-    const sendSection = $('#send-section');
     const formSection = $('#form-section');
     const shareSection = $('#share-section');
-    const formStepBadge = $('#form-step-badge');
-    const formTitle = $('#form-title');
-    const formDescription = $('#form-description');
-    const addressForm = $('#address-form');
 
-    if (isInvalidOrMissing) {
-      // ---- Mode: ERROR - no valid link data ----
+    if (!hasData) {
+      // No valid link data -- show error, hide form
       $('#error-section').classList.remove('hidden');
       formSection.classList.add('hidden');
+    } else {
+      // Valid link -- show send-to address and form
+      $('#send-section').classList.remove('hidden');
 
-    } else if (hasData) {
-      // ---- Mode: received a link, show send-to address ----
-      sendSection.classList.remove('hidden');
-
-      // Show "from" person warning banner
-      const fromName = linkData.f ? linkData.f.n : null;
+      // "From" person warning banner
+      const fromName = linkData.f?.n;
       if (fromName) {
-        const warningEl = $('#from-warning');
+        const el = $('#from-warning');
         const strong = document.createElement('strong');
         strong.textContent = fromName;
-        warningEl.appendChild(strong);
-        warningEl.appendChild(document.createTextNode(' size bu linki gönderdi. Eğer linkine tıkladığınız kişi doğru değilse lütfen kontrol edin, yoksa bilgiler yanlış olabilir.'));
-        warningEl.classList.remove('hidden');
+        el.appendChild(strong);
+        el.appendChild(document.createTextNode(' size bu linki gönderdi. Eğer linkine tıkladığınız kişi doğru değilse lütfen kontrol edin, yoksa bilgiler yanlış olabilir.'));
+        el.classList.remove('hidden');
       }
 
-      // Populate address
+      // Populate send-to address
       $('#send-name').textContent = linkData.s.n;
       $('#send-address').textContent = linkData.s.a;
       $('#send-phone-text').textContent = linkData.s.p || '';
-      if (!linkData.s.p) {
-        $('#send-phone').style.display = 'none';
-      }
+      if (!linkData.s.p) $('#send-phone').style.display = 'none';
 
-      // Pre-fill manual template with known "from" address
+      // Pre-fill manual template with "from" address
       if (linkData.f) {
         const f = linkData.f;
-        const templateEl = $('#manual-template-text');
-        templateEl.textContent = templateEl.textContent
+        const tpl = $('#manual-template-text');
+        tpl.textContent = tpl.textContent
           .replace('[VARIM DEDİĞİNİZ KİŞİNİN ADI]', f.n || '')
           .replace('[VARIM DEDİĞİNİZ KİŞİNİN ADRESİ]', f.a || '')
           .replace('[VARIM DEDİĞİNİZ KİŞİNİN TELEFONU]', f.p || '');
-
-        // Update instructions since first address is pre-filled
-        const listEl = $('#manual-instructions-list');
-        listEl.innerHTML =
+        $('#manual-instructions-list').innerHTML =
           '<li><strong>Adres</strong> kısmına <strong>kendi adresinizi</strong> yazın.</li>';
       }
 
-      // Update form section to be step 2
-      formStepBadge.textContent = '2';
-      formTitle.textContent = 'Zincire Katılın';
-      formDescription.textContent = 'Kendi adresinizi girin ki size de kitap gönderilsin. Adresiniz bir sonraki katılımcıya iletilecek.';
-
-      // Update share step numbers
+      // Update step numbers
+      $('#form-description').textContent = 'Kendi adresinizi girin ki size de kitap gönderilsin. Adresiniz bir sonraki katılımcıya iletilecek.';
       $('#share-step-1').textContent = '3';
       $('#share-step-2').textContent = '4';
 
       // Copy address button
-      $('#copy-address-btn').addEventListener('click', async () => {
-        const addrText = [
-          linkData.s.n,
-          linkData.s.a,
-          linkData.s.p || ''
-        ].filter(Boolean).join('\n');
-        const ok = await copyToClipboard(addrText);
-        showToast(ok ? 'Adres kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
+      $('#copy-address-btn').addEventListener('click', () => {
+        const text = [linkData.s.n, linkData.s.a, linkData.s.p].filter(Boolean).join('\n');
+        copyAndToast(text, 'Adres kopyalandı!');
       });
     }
 
     // =============================================
-    // State
-    // =============================================
-    let generatedUrl = '';
-
-    // =============================================
     // Form submission
     // =============================================
-    addressForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+    let generatedUrl = '';
+    const LINK_SVG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
 
-      const userName = $('#name').value.trim();
-      const userAddress = $('#address').value.trim();
-      const userPhone = $('#phone').value.trim();
-
-      if (!userName || !userAddress || !userPhone) return;
-
-      // Build new link data: sendTo = old from, from = user
-      const newLinkData = {
-        s: linkData.f ? { ...linkData.f } : { ...linkData.s },
-        f: { n: userName, a: userAddress, p: userPhone }
-      };
-
-      const encoded = encodeData(newLinkData);
-      const baseUrl = window.location.origin + window.location.pathname;
-      generatedUrl = baseUrl + '?d=' + encoded;
-
-      // Populate share section
-      $('#story-text').textContent = STORY_TEXT;
-      $('#share-url').textContent = generatedUrl;
-
-      // Show share section
-      shareSection.classList.remove('hidden');
-      shareSection.classList.add('fade-in');
-
-      // Disable form
-      setFormDisabled(true);
-
-      // Scroll to share section
-      setTimeout(() => {
-        shareSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
-    });
-
-    // =============================================
-    // Form disable/enable
-    // =============================================
     function setFormDisabled(disabled) {
-      $('#name').disabled = disabled;
-      $('#address').disabled = disabled;
-      $('#phone').disabled = disabled;
-      $('#submit-btn').disabled = disabled;
-      $('#submit-btn').style.opacity = disabled ? '0.5' : '1';
-      if (disabled) {
-        $('#submit-btn').innerHTML = 'Link Oluşturuldu &#10003;';
-      } else {
-        $('#submit-btn').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Linkimi Oluştur';
-      }
+      ['#name', '#address', '#phone'].forEach(s => $(s).disabled = disabled);
+      const btn = $('#submit-btn');
+      btn.disabled = disabled;
+      btn.style.opacity = disabled ? '0.5' : '1';
+      btn.innerHTML = disabled ? 'Link Oluşturuldu &#10003;' : LINK_SVG + ' Linkimi Oluştur';
     }
 
-    // =============================================
-    // Copy buttons (always attached, use current state)
-    // =============================================
-    $('#copy-story-btn').addEventListener('click', async () => {
-      const ok = await copyToClipboard(STORY_TEXT);
-      showToast(ok ? 'Metin kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
+    $('#address-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const n = $('#name').value.trim();
+      const a = $('#address').value.trim();
+      const p = $('#phone').value.trim();
+      if (!n || !a || !p) return;
+
+      const newData = {
+        s: linkData.f ? { ...linkData.f } : { ...linkData.s },
+        f: { n, a, p }
+      };
+      generatedUrl = window.location.origin + window.location.pathname + '?d=' + encodeData(newData);
+
+      $('#story-text').textContent = STORY_TEXT;
+      $('#share-url').textContent = generatedUrl;
+      shareSection.classList.remove('hidden');
+      shareSection.classList.add('fade-in');
+      setFormDisabled(true);
+      setTimeout(() => shareSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
     });
 
-    $('#copy-url-btn').addEventListener('click', async () => {
-      const ok = await copyToClipboard(generatedUrl);
-      showToast(ok ? 'Link kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
-    });
-
     // =============================================
-    // WhatsApp share
+    // Copy buttons
     // =============================================
+    $('#copy-story-btn').addEventListener('click', () => copyAndToast(STORY_TEXT, 'Metin kopyalandı!'));
+    $('#copy-url-btn').addEventListener('click', () => copyAndToast(generatedUrl, 'Link kopyalandı!'));
     $('#whatsapp-btn').addEventListener('click', () => {
-      if (!generatedUrl) return;
-      const waUrl = 'https://wa.me/?text=' + encodeURIComponent(generatedUrl);
-      window.open(waUrl, '_blank');
+      if (generatedUrl) window.open('https://wa.me/?text=' + encodeURIComponent(generatedUrl), '_blank');
     });
 
     // =============================================
-    // Reset / Edit
+    // Reset
     // =============================================
     $('#reset-btn').addEventListener('click', () => {
       shareSection.classList.add('hidden');
@@ -1215,70 +1125,28 @@ Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.`;
     });
 
     // =============================================
-    // Manual instructions modal
+    // Modals (generic)
     // =============================================
-    const modalOverlay = $('#manual-modal');
-
-    function openModal() {
-      modalOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
+    function setupModal(overlayId, openBtnId, closeBtnIds) {
+      const overlay = $(overlayId);
+      const open = () => { overlay.classList.add('active'); document.body.style.overflow = 'hidden'; };
+      const close = () => { overlay.classList.remove('active'); document.body.style.overflow = ''; };
+      $(openBtnId).addEventListener('click', open);
+      closeBtnIds.forEach(id => $(id).addEventListener('click', close));
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+      return { open, close };
     }
 
-    function closeModal() {
-      modalOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
+    const manualModal = setupModal('#manual-modal', '#open-manual-btn', ['#close-modal-btn', '#close-modal-btn-2']);
+    const legalModal = setupModal('#legal-modal', '#open-legal-btn', ['#close-legal-btn', '#close-legal-btn-2']);
 
-    $('#open-manual-btn').addEventListener('click', openModal);
-    $('#close-modal-btn').addEventListener('click', closeModal);
-    $('#close-modal-btn-2').addEventListener('click', closeModal);
+    // Manual modal copy buttons
+    $('#copy-manual-story-btn').addEventListener('click', () => copyAndToast($('#manual-story-text').textContent, 'Metin kopyalandı!'));
+    $('#copy-manual-template-btn').addEventListener('click', () => copyAndToast($('#manual-template-text').textContent, 'Mesaj kopyalandı!'));
 
-    // Copy manual story text
-    $('#copy-manual-story-btn').addEventListener('click', async () => {
-      const text = $('#manual-story-text').textContent;
-      const ok = await copyToClipboard(text);
-      showToast(ok ? 'Metin kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
-    });
-
-    // Copy manual template message
-    $('#copy-manual-template-btn').addEventListener('click', async () => {
-      const text = $('#manual-template-text').textContent;
-      const ok = await copyToClipboard(text);
-      showToast(ok ? 'Mesaj kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
-    });
-
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) closeModal();
-    });
-
-    // =============================================
-    // Legal / Privacy modal
-    // =============================================
-    const legalOverlay = $('#legal-modal');
-
-    function openLegal() {
-      legalOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeLegal() {
-      legalOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    $('#open-legal-btn').addEventListener('click', openLegal);
-    $('#close-legal-btn').addEventListener('click', closeLegal);
-    $('#close-legal-btn-2').addEventListener('click', closeLegal);
-
-    legalOverlay.addEventListener('click', (e) => {
-      if (e.target === legalOverlay) closeLegal();
-    });
-
+    // Escape key closes all modals
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeModal();
-        closeLegal();
-      }
+      if (e.key === 'Escape') { manualModal.close(); legalModal.close(); }
     });
   </script>
 </body>
