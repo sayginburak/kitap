@@ -455,16 +455,215 @@
       scroll-margin-top: 16px;
     }
 
-    /* Instruction banner for fresh visitors */
-    .welcome-banner {
-      text-align: center;
-      padding: 12px 20px;
-      background: linear-gradient(135deg, rgba(224, 122, 95, 0.1), rgba(129, 178, 154, 0.1));
+    /* Header link */
+    .header-link {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .header-link:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
+
+    /* Warning banner (who shared the link) */
+    .warning-banner {
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
       border-radius: var(--radius-sm);
-      margin-bottom: 16px;
+      padding: 14px 18px;
+      margin-top: 16px;
       font-size: 14px;
-      color: var(--text-light);
       line-height: 1.6;
+      color: #5D4037;
+      text-align: center;
+    }
+
+    .warning-banner strong {
+      color: var(--primary);
+    }
+
+    /* Error card */
+    .error-card {
+      background: #FFF0F0;
+      border: 1px solid #FFCDD2;
+      text-align: center;
+    }
+
+    .error-card h2 {
+      color: #C62828;
+      justify-content: center;
+    }
+
+    .error-card p {
+      color: #5D4037;
+    }
+
+    /* Open source notice */
+    .open-source-notice {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      margin-top: 20px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    .open-source-notice a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .open-source-notice a:hover {
+      text-decoration: underline;
+    }
+
+    .manual-link {
+      cursor: pointer;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      padding: 0;
+    }
+
+    .manual-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+
+    .modal h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 4px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: var(--text);
+    }
+
+    .modal .step-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .modal .step-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .modal .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .modal .step-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+      padding-top: 3px;
+    }
+
+    .modal .step-text strong {
+      color: var(--primary);
+    }
+
+    .modal .message-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.7;
+      white-space: pre-line;
+      color: var(--text-light);
+    }
+
+    .modal .note {
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #5D4037;
     }
   </style>
 </head>
@@ -473,8 +672,18 @@
     <header>
       <div class="logo" aria-hidden="true">📚</div>
       <h1>Büyük Kitap Değişimi</h1>
-      <p class="subtitle">En sevdiğiniz kitabı paylaşın, dünyanın farklı yerlerinden 36 kitap kazanın!</p>
+      <p class="subtitle">En sevdiğiniz kitabı paylaşın, karşılığında 36'ya kadar kitap alabilirsiniz!</p>
+      <a href="#nasil-calisir" class="header-link">Nasıl çalışır?</a>
     </header>
+
+    <!-- Warning: who shared this link -->
+    <div id="from-warning" class="warning-banner hidden"></div>
+
+    <!-- Error: invalid/empty/missing data parameter -->
+    <section id="error-section" class="card error-card hidden">
+      <h2>Geçersiz Link</h2>
+      <p>Bu link geçersiz veya bozulmuş görünüyor. Oyuna katılabilmek için geçerli bir linke ihtiyacınız var. Lütfen linki size gönderen kişiden tekrar isteyin.</p>
+    </section>
 
     <!-- ============================================ -->
     <!-- STATE: Has link data - show address to send to -->
@@ -578,7 +787,7 @@
     <!-- ============================================ -->
     <!-- INFO: How it works -->
     <!-- ============================================ -->
-    <section class="card info-card">
+    <section id="nasil-calisir" class="card info-card">
       <h2><span class="icon">💡</span> Nasıl Çalışır?</h2>
       <ol>
         <li>Hikâyenizde kitap değişimi metnini paylaşın.</li>
@@ -589,9 +798,160 @@
       </ol>
     </section>
 
+    <!-- Open source notice -->
+    <div class="open-source-notice">
+      Bu sayfa açık kaynaklıdır ve kodları <a href="https://github.com/sayginburak/kitap" target="_blank" rel="noopener">GitHub</a> üzerinden incelenebilir. Adresinizi ve diğer bilgilerinizi hiçbir yere göndermez; tüm veriler yalnızca tarayıcınızda işlenir.<br><br>
+      Eğer buna rağmen yine de adres girmek istemezseniz, oyuna katılmak için <button class="manual-link" id="open-manual-btn" type="button">şu yönergeleri izleyebilirsiniz</button>. Bu sayfayı kullanmak sadece işinizi kolaylaştırır ve karışıklıkların önüne geçer. Manuel olarak yapmayı seçerseniz lütfen tüm metni iyi okuyup anlayarak gönderiniz.
+    </div>
+
     <footer style="text-align:center; padding: 24px 0 8px; color: var(--text-muted); font-size: 12px;">
-      Kitaplar insanları, insanlar kitapları birbirine bağlar.
+      Kitaplar insanları, insanlar kitapları birbirine bağlar.<br>
+      <button class="manual-link" id="open-legal-btn" type="button" style="font-size:12px; color:var(--text-muted); margin-top:6px;">Kullanım Koşulları ve Gizlilik</button>
     </footer>
+  </div>
+
+  <!-- Manual instructions modal -->
+  <div id="manual-modal" class="modal-overlay">
+    <div class="modal" style="position:relative;">
+      <button class="modal-close" id="close-modal-btn" type="button" aria-label="Kapat">&times;</button>
+      <h2>Manuel Katılım Yönergeleri</h2>
+      <p style="font-size:14px; color:var(--text-light); margin-bottom:20px;">
+       Bu siteyi kullanmadan, aşağıda kopyalayabileceğiniz mesajı elle düzenleyerek de oyuna katılabilirsiniz.
+      </p>
+
+      <div class="step-item">
+        <span class="step-num">1</span>
+        <div class="step-text">
+          Linkteki veya mesajdaki adrese en sevdiğiniz kitabı (sadece bir tane) satın alıp gönderin.
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-num">2</span>
+        <div class="step-text">
+          Aşağıdaki metni hikâyenizde paylaşın:
+          <div class="message-block" id="manual-story-text">Büyük kitap değişimi oyununa katılmak isteyen insanlar arıyorum.
+Yapmanız gereken tek şey en sevdiğiniz kitabı (sadece bir tane) satın alıp bir yabancıya göndermek. (Size onun bilgilerini özelden mesajla ileteceğim.)
+Karşılığında size 36 kitap gelebilir. Dünyanın farklı yerlerinden tanımadığınız 36 kitapkurdunun en sevdiği kitaplar sizin olabilir.
+Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.</div>
+          <button class="btn btn-primary btn-sm" id="copy-manual-story-btn" type="button" style="margin-top:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Metni Kopyala
+          </button>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <span class="step-num">3</span>
+        <div class="step-text">
+          Hikâyenize "varım" diyen kişilere aşağıdaki mesajı gönderin. Göndermeden önce düzenleyin:
+          <ul style="margin-top:8px; margin-bottom:8px; padding-left:18px; font-size:13px; color:var(--text-light);" id="manual-instructions-list">
+            <li><strong>İlk adres</strong> kısmına "varım" dediğiniz (size linki gönderen) kişinin adresini yazın.</li>
+            <li><strong>İkinci adres</strong> kısmına kendi adresinizi yazın.</li>
+          </ul>
+          <div class="message-block" id="manual-template-text">Harika ☺️
+Bir kitabı şu adrese göndereceksiniz:
+
+[VARIM DEDİĞİNİZ KİŞİNİN ADI]
+[VARIM DEDİĞİNİZ KİŞİNİN ADRESİ]
+
+[VARIM DEDİĞİNİZ KİŞİNİN TELEFONU]
+
+Şimdi, bu mesajın en altındaki metni hikâyenizde paylaşın. Biri yanıt verdiğinde, bu mesajı ona gönderin ancak yukarıdaki adresi aşağıdaki adresle değiştirin:
+
+[SİZİN ADINIZ]
+[SİZİN ADRESİNİZ]
+
+[SİZİN TELEFONUNUZ]
+
+Böylece gönderinize yanıt veren kişi kitabı bana gönderecek. Siz de benim adresimin olduğu yere kendi adresinizi yazacaksınız ki onların çevresindeki insanlar da size kitap göndersin. Yeniden paylaşmazsanız bu sistem işlemez, bu yüzden paylaşmaya devam edin.
+
+Hikâyenizde paylaşmanız gereken metin aşağıdadır:
+
+Büyük kitap değişimi oyununa katılmak isteyen insanlar arıyorum.
+Yapmanız gereken tek şey en sevdiğiniz kitabı (sadece bir tane) satın alıp bir yabancıya göndermek. (Size onun bilgilerini özelden mesajla ileteceğim.)
+Karşılığında size 36 kitap gelebilir. Dünyanın farklı yerlerinden tanımadığınız 36 kitapkurdunun en sevdiği kitaplar sizin olabilir.
+Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.</div>
+          <button class="btn btn-primary btn-sm" id="copy-manual-template-btn" type="button" style="margin-top:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Mesajı Kopyala
+          </button>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Önemli:</strong> Yeniden paylaşmazsanız bu sistem işlemez. Zincirin devam etmesi için mutlaka hikâyenizde paylaşın ve yanıt verenlere mesajı iletin.
+      </div>
+
+      <div style="margin-top:20px; text-align:center;">
+        <button class="btn btn-secondary btn-sm" id="close-modal-btn-2" type="button">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legal / Privacy modal -->
+  <div id="legal-modal" class="modal-overlay">
+    <div class="modal" style="position:relative;">
+      <button class="modal-close" id="close-legal-btn" type="button" aria-label="Kapat">&times;</button>
+      <h2>Kullanım Koşulları ve Gizlilik</h2>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Son güncelleme: 12 Şubat 2026</p>
+
+      <div style="font-size:14px; line-height:1.8; color:var(--text-light);">
+        <h3 style="font-size:16px; color:var(--primary); margin-bottom:8px;">1. Hizmetin Tanımı</h3>
+        <p style="margin-bottom:16px;">
+          Bu web sitesi ("Büyük Kitap Değişimi"), kullanıcılar arasındaki kitap değişim zincirini kolaylaştırmak amacıyla oluşturulmuş, tamamen ücretsiz ve açık kaynaklı bir araçtır. Site, yalnızca bir aracı işlevi görür; herhangi bir kitap satışı, dağıtımı veya gönderi hizmeti sunmaz.
+        </p>
+
+        <h3 style="font-size:16px; color:var(--primary); margin-bottom:8px;">2. Veri İşleme ve Gizlilik</h3>
+        <p style="margin-bottom:12px;">
+          <strong>Hiçbir kişisel veri sunucuya gönderilmez veya saklanmaz.</strong> Bu site tamamen istemci tarafında (tarayıcınızda) çalışır. Girdiğiniz ad, adres ve telefon bilgileri:
+        </p>
+        <ul style="padding-left:20px; margin-bottom:16px;">
+          <li>Yalnızca tarayıcınızda işlenir.</li>
+          <li>URL içinde Base64 formatında kodlanarak paylaşım linki oluşturulur.</li>
+          <li>Herhangi bir veritabanına, sunucuya veya üçüncü taraf hizmetine iletilmez.</li>
+          <li>Oluşturulan link, içinde kodlanmış bilgileri taşır. <strong>Linki paylaştığınız herkes bu bilgilere erişebilir.</strong></li>
+        </ul>
+
+        <h3 style="font-size:16px; color:var(--primary); margin-bottom:8px;">3. Sorumluluk Reddi</h3>
+        <ul style="padding-left:20px; margin-bottom:16px;">
+          <li>Site sahibi ve geliştiricileri, kullanıcılar arasındaki kitap gönderimlerinden, kayıplarından, hasarlarından veya gönderilmemesinden <strong>hiçbir şekilde sorumlu değildir</strong>.</li>
+          <li>Kullanıcıların birbirlerine ilettikleri kişisel bilgilerin (ad, adres, telefon) doğruluğu, güvenliği ve kullanımı tamamen ilgili kullanıcıların sorumluluğundadır.</li>
+          <li>Site, kullanıcılar arasında herhangi bir sözleşme, garanti veya taahhüt oluşturmaz.</li>
+          <li>Kitap gönderim masrafları ve kargo süreçleri tamamen gönderici kullanıcının sorumluluğundadır.</li>
+          <li>Bu hizmet "olduğu gibi" sunulmaktadır; kesintisiz veya hatasız çalışacağına dair bir garanti verilmez.</li>
+        </ul>
+
+        <h3 style="font-size:16px; color:var(--primary); margin-bottom:8px;">4. Kişisel Bilgi Paylaşım Riski</h3>
+        <p style="margin-bottom:16px;">
+          Bu oyuna katılarak adınızı, adresinizi ve telefon numaranızı üçüncü kişilerle paylaşmayı <strong>kendi iradenizle kabul etmiş</strong> olursunuz. Paylaştığınız bilgilerin nasıl kullanılacağı üzerinde site sahibinin herhangi bir kontrolü yoktur. Bilgilerinizi paylaşmadan önce riskleri değerlendirmeniz önerilir.
+        </p>
+
+        <h3 style="font-size:16px; color:var(--primary); margin-bottom:8px;">5. Fikri Mülkiyet</h3>
+        <p style="margin-bottom:16px;">
+          Bu site açık kaynak kodlu olup kaynak kodları <a href="https://github.com/sayginburak/kitap" target="_blank" rel="noopener" style="color:var(--accent);">GitHub</a> üzerinden erişilebilir. Herkes kodu inceleyebilir, kopyalayabilir ve kendi amaçları için kullanabilir.
+        </p>
+
+        <h3 style="font-size:16px; color:var(--primary); margin-bottom:8px;">6. Çerezler ve Analitik</h3>
+        <p style="margin-bottom:16px;">
+          Bu site, ziyaretçi istatistiklerini anonim olarak takip etmek amacıyla Google Analytics kullanabilir. Google Analytics, sayfa görüntüleme sayısı ve genel kullanım istatistikleri gibi anonim veriler toplar. Girdiğiniz ad, adres ve telefon bilgileri Google Analytics'e <strong>kesinlikle iletilmez</strong>. Bunun dışında Google Fonts harici üçüncü taraf kaynağı yüklenmez.
+        </p>
+
+        <h3 style="font-size:16px; color:var(--primary); margin-bottom:8px;">7. Değişiklikler</h3>
+        <p style="margin-bottom:16px;">
+          Bu kullanım koşulları önceden haber verilmeksizin güncellenebilir. Güncel metin her zaman bu sayfa üzerinden erişilebilir olacaktır.
+        </p>
+
+        <h3 style="font-size:16px; color:var(--primary); margin-bottom:8px;">8. Kabul</h3>
+        <p>
+          Bu siteyi kullanarak ve/veya oluşturulan linkleri paylaşarak yukarıdaki koşulları okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.
+        </p>
+      </div>
+
+      <div style="margin-top:24px; text-align:center;">
+        <button class="btn btn-secondary btn-sm" id="close-legal-btn-2" type="button">Kapat</button>
+      </div>
+    </div>
   </div>
 
   <!-- Toast notification -->
@@ -668,17 +1028,12 @@
     }
 
     // =============================================
-    // Story text (constant)
+    // Story text (constant - exact original)
     // =============================================
-    const STORY_TEXT = `📚 Büyük Kitap Değişimi 📚
-
-Büyük kitap değişimi oyununa katılmak isteyen insanlar arıyorum!
-
+    const STORY_TEXT = `Büyük kitap değişimi oyununa katılmak isteyen insanlar arıyorum.
 Yapmanız gereken tek şey en sevdiğiniz kitabı (sadece bir tane) satın alıp bir yabancıya göndermek. (Size onun bilgilerini özelden mesajla ileteceğim.)
-
-Karşılığında size 36 kitap gelebilir! Dünyanın farklı yerlerinden tanımadığınız 36 kitapkurdunun en sevdiği kitaplar sizin olabilir.
-
-Katılmak isterseniz bu mesaja "VARIM!" yazarak cevap verin.`;
+Karşılığında size 36 kitap gelebilir. Dünyanın farklı yerlerinden tanımadığınız 36 kitapkurdunun en sevdiği kitaplar sizin olabilir.
+Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.`;
 
     // =============================================
     // Main app logic
@@ -690,8 +1045,9 @@ Katılmak isterseniz bu mesaja "VARIM!" yazarak cevap verin.`;
     const dataParam = params.get('d');
     const linkData = dataParam ? decodeData(dataParam) : null;
 
-    // Has valid link data?
+    // Determine state
     const hasData = linkData && linkData.s && linkData.s.n && linkData.s.a;
+    const isInvalidOrMissing = !hasData; // no data, empty, or corrupt
 
     // DOM refs
     const sendSection = $('#send-section');
@@ -702,9 +1058,25 @@ Katılmak isterseniz bu mesaja "VARIM!" yazarak cevap verin.`;
     const formDescription = $('#form-description');
     const addressForm = $('#address-form');
 
-    if (hasData) {
+    if (isInvalidOrMissing) {
+      // ---- Mode: ERROR - no valid link data ----
+      $('#error-section').classList.remove('hidden');
+      formSection.classList.add('hidden');
+
+    } else if (hasData) {
       // ---- Mode: received a link, show send-to address ----
       sendSection.classList.remove('hidden');
+
+      // Show "from" person warning banner
+      const fromName = linkData.f ? linkData.f.n : null;
+      if (fromName) {
+        const warningEl = $('#from-warning');
+        const strong = document.createElement('strong');
+        strong.textContent = fromName;
+        warningEl.appendChild(strong);
+        warningEl.appendChild(document.createTextNode(' size bu linki gönderdi. Eğer linkine tıkladığınız kişi doğru değilse lütfen kontrol edin, yoksa bilgiler yanlış olabilir.'));
+        warningEl.classList.remove('hidden');
+      }
 
       // Populate address
       $('#send-name').textContent = linkData.s.n;
@@ -712,6 +1084,21 @@ Katılmak isterseniz bu mesaja "VARIM!" yazarak cevap verin.`;
       $('#send-phone-text').textContent = linkData.s.p || '';
       if (!linkData.s.p) {
         $('#send-phone').style.display = 'none';
+      }
+
+      // Pre-fill manual template with known "from" address
+      if (linkData.f) {
+        const f = linkData.f;
+        const templateEl = $('#manual-template-text');
+        templateEl.textContent = templateEl.textContent
+          .replace('[VARIM DEDİĞİNİZ KİŞİNİN ADI]', f.n || '')
+          .replace('[VARIM DEDİĞİNİZ KİŞİNİN ADRESİ]', f.a || '')
+          .replace('[VARIM DEDİĞİNİZ KİŞİNİN TELEFONU]', f.p || '');
+
+        // Update instructions since first address is pre-filled
+        const listEl = $('#manual-instructions-list');
+        listEl.innerHTML =
+          '<li><strong>Adres</strong> kısmına <strong>kendi adresinizi</strong> yazın.</li>';
       }
 
       // Update form section to be step 2
@@ -733,14 +1120,6 @@ Katılmak isterseniz bu mesaja "VARIM!" yazarak cevap verin.`;
         const ok = await copyToClipboard(addrText);
         showToast(ok ? 'Adres kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
       });
-    } else {
-      // ---- Mode: starting a new chain ----
-      formStepBadge.textContent = '1';
-      formTitle.textContent = 'Zinciri Başlatın';
-      formDescription.textContent = 'Adresinizi girin ve kitap değişim zincirinizi başlatın. Oluşturulan linki paylaştığınızda insanlar size kitap gönderebilecek.';
-
-      $('#share-step-1').textContent = '2';
-      $('#share-step-2').textContent = '3';
     }
 
     // =============================================
@@ -760,21 +1139,11 @@ Katılmak isterseniz bu mesaja "VARIM!" yazarak cevap verin.`;
 
       if (!userName || !userAddress || !userPhone) return;
 
-      // Build new link data
-      let newLinkData;
-      if (hasData) {
-        // Chain mode: sendTo = old from, from = user
-        newLinkData = {
-          s: linkData.f ? { ...linkData.f } : { ...linkData.s },
-          f: { n: userName, a: userAddress, p: userPhone }
-        };
-      } else {
-        // New chain: both sendTo and from are the user
-        newLinkData = {
-          s: { n: userName, a: userAddress, p: userPhone },
-          f: { n: userName, a: userAddress, p: userPhone }
-        };
-      }
+      // Build new link data: sendTo = old from, from = user
+      const newLinkData = {
+        s: linkData.f ? { ...linkData.f } : { ...linkData.s },
+        f: { n: userName, a: userAddress, p: userPhone }
+      };
 
       const encoded = encodeData(newLinkData);
       const baseUrl = window.location.origin + window.location.pathname;
@@ -843,6 +1212,73 @@ Katılmak isterseniz bu mesaja "VARIM!" yazarak cevap verin.`;
       setFormDisabled(false);
       generatedUrl = '';
       formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // =============================================
+    // Manual instructions modal
+    // =============================================
+    const modalOverlay = $('#manual-modal');
+
+    function openModal() {
+      modalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    $('#open-manual-btn').addEventListener('click', openModal);
+    $('#close-modal-btn').addEventListener('click', closeModal);
+    $('#close-modal-btn-2').addEventListener('click', closeModal);
+
+    // Copy manual story text
+    $('#copy-manual-story-btn').addEventListener('click', async () => {
+      const text = $('#manual-story-text').textContent;
+      const ok = await copyToClipboard(text);
+      showToast(ok ? 'Metin kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
+    });
+
+    // Copy manual template message
+    $('#copy-manual-template-btn').addEventListener('click', async () => {
+      const text = $('#manual-template-text').textContent;
+      const ok = await copyToClipboard(text);
+      showToast(ok ? 'Mesaj kopyalandı!' : 'Kopyalanamadı, lütfen elle kopyalayın.');
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // =============================================
+    // Legal / Privacy modal
+    // =============================================
+    const legalOverlay = $('#legal-modal');
+
+    function openLegal() {
+      legalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLegal() {
+      legalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    $('#open-legal-btn').addEventListener('click', openLegal);
+    $('#close-legal-btn').addEventListener('click', closeLegal);
+    $('#close-legal-btn-2').addEventListener('click', closeLegal);
+
+    legalOverlay.addEventListener('click', (e) => {
+      if (e.target === legalOverlay) closeLegal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeLegal();
+      }
     });
   </script>
 </body>
