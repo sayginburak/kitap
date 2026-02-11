@@ -857,7 +857,8 @@ Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.</div>
         <div class="step-text">
           Hikâyenize "varım" diyen kişilere aşağıdaki mesajı gönderin. Göndermeden önce düzenleyin:
           <ul style="margin-top:8px; margin-bottom:8px; padding-left:18px; font-size:13px; color:var(--text-light);" id="manual-instructions-list">
-            <li><strong>İkinci adres</strong> kısmına kendi adresinizi yazın.</li>
+            <li><strong>İlk adres</strong> kısmına "varım" dediğiniz (size linki gönderen) kişinin adresini yazın.</li>
+            <li>Mesajın ortasındaki <strong>[SİZİN ADINIZ], [SİZİN ADRESİNİZ], [SİZİN TELEFONUNUZ]</strong> yazan yerlere <strong>kendi bilgilerinizi</strong> yazın. Bu kısım ilk adresle karıştırılmamalıdır; mesajda açıkça işaretlenmiştir.</li>
           </ul>
           <div class="message-block" id="manual-template-text">Harika ☺️
 Bir kitabı şu adrese göndereceksiniz:
@@ -1086,7 +1087,8 @@ Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.`;
           .replace('[VARIM DEDİĞİNİZ KİŞİNİN ADRESİ]', f.a || '')
           .replace('[VARIM DEDİĞİNİZ KİŞİNİN TELEFONU]', f.p || '');
         $('#manual-instructions-list').innerHTML =
-          '<li><strong>Adres</strong> kısmına <strong>kendi adresinizi</strong> yazın.</li>';
+          '<li><strong>İlk adres</strong> otomatik olarak dolduruldu (size linki gönderen kişinin adresi).</li>' +
+          '<li>Mesajın ortasındaki <strong>[SİZİN ADINIZ], [SİZİN ADRESİNİZ], [SİZİN TELEFONUNUZ]</strong> yazan yerlere <strong>kendi bilgilerinizi</strong> yazın.</li>';
       }
 
       // Update step numbers
