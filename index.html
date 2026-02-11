@@ -653,7 +653,7 @@
       <div class="logo" aria-hidden="true">📚</div>
       <h1>Büyük Kitap Değişimi</h1>
       <p class="subtitle">En sevdiğiniz kitabı paylaşın, karşılığında 36'ya kadar kitap alabilirsiniz!</p>
-      <button class="header-link" id="open-how-btn" type="button">Nasıl çalışır?</button>
+      <button class="header-link hidden" id="open-how-btn" type="button">Nasıl çalışır?</button>
     </header>
 
     <!-- Warning: who shared this link -->
@@ -756,12 +756,12 @@
     </section>
 
     <!-- Open source notice -->
-    <div class="open-source-notice">
+    <div id="oss-notice" class="open-source-notice hidden">
       Bu sayfa açık kaynaklıdır ve kodları <a href="https://github.com/sayginburak/kitap" target="_blank" rel="noopener">GitHub</a> üzerinden incelenebilir. Adresinizi ve diğer bilgilerinizi hiçbir yere göndermez; tüm veriler yalnızca tarayıcınızda işlenir.<br><br>
       Eğer buna rağmen yine de adres girmek istemezseniz, oyuna katılmak için <button class="manual-link" id="open-manual-btn" type="button">şu yönergeleri izleyebilirsiniz</button>. Bu sayfayı kullanmak sadece işinizi kolaylaştırır ve karışıklıkların önüne geçer. Manuel olarak yapmayı seçerseniz lütfen yönergelerdeki tüm metni iyi okuyup anlayarak gönderiniz.
     </div>
 
-    <footer style="text-align:center; padding: 24px 0 8px; color: var(--text-muted); font-size: 12px;">
+    <footer id="page-footer" class="hidden" style="text-align:center; padding: 24px 0 8px; color: var(--text-muted); font-size: 12px;">
       Kitaplar insanları, insanlar kitapları birbirine bağlar.<br>
       <button class="manual-link" id="open-legal-btn" type="button" style="font-size:12px; color:var(--text-muted); margin-top:6px;">Kullanım Koşulları ve Gizlilik</button>
     </footer>
@@ -1058,8 +1058,11 @@ Katılmak isterseniz bu mesaja "varım" yazarak cevap verin.`;
       $('#error-section').classList.remove('hidden');
       formSection.classList.add('hidden');
     } else {
-      // Valid link -- show send-to address and form
+      // Valid link -- show send-to address, form, and page elements
       $('#send-section').classList.remove('hidden');
+      $('#open-how-btn').classList.remove('hidden');
+      $('#oss-notice').classList.remove('hidden');
+      $('#page-footer').classList.remove('hidden');
 
       // "From" person warning banner
       const fromName = linkData.f?.n;
