@@ -1,25 +1,25 @@
 # Büyük Kitap Değişimi
 
-A simple static web app for the "Great Book Exchange" chain game. Built for GitHub Pages.
+"Büyük Kitap Değişimi" zincir oyunu için oluşturulmuş basit, statik bir web uygulaması. GitHub Pages üzerinde çalışır.
 
-## How It Works
+## Nasıl Çalışır?
 
-1. Share the story text on your Instagram/social media story
-2. When someone responds "Varım!", send them your personalized link
-3. They open the link, see the address to send a book to, and enter their own address
-4. They get their own link to continue the chain
+1. Hikâyenizde kitap değişimi metnini paylaşın
+2. "Varım!" diyen kişilere kişisel linkinizi gönderin
+3. Onlar linki açar, kitap göndereceği adresi görür ve kendi adresini girer
+4. Kendi linklerini oluşturup zinciri devam ettirirler
 
-The app encodes addresses in URL-safe Base64, so no backend is needed. Everything runs client-side.
+Adresler URL-safe Base64 ile kodlanır, backend gerekmez. Her şey tarayıcıda çalışır, hiçbir veri sunucuya gönderilmez.
 
-## Deploy
+## Kurulum
 
-Push to GitHub and enable GitHub Pages from Settings → Pages → Deploy from branch (main).
+GitHub'a push edin ve Settings → Pages → Deploy from branch (main) üzerinden GitHub Pages'i aktif edin.
 
-The app is a single `index.html` file with no dependencies.
+Uygulama tek bir `index.html` dosyasından oluşur, bağımlılığı yoktur.
 
-## Tech
+## Teknoloji
 
-- Pure HTML, CSS, JavaScript
-- No frameworks, no build step
-- Mobile-first responsive design
-- URL-safe Base64 encoding for Turkish character support
+- Saf HTML, CSS, JavaScript
+- Framework yok, build adımı yok
+- Mobil öncelikli responsive tasarım
+- Türkçe karakter desteği için URL-safe Base64 kodlama
